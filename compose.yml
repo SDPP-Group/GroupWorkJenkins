@@ -2,11 +2,6 @@ version: '3.8'
 services:
   web:
     build: ./app
-    image: softdevcicd/api
+    image: registry.gitlab.com/autyauth1/softdevcicd
     ports:
       - "9080:5000"
-  test:
-    build: ./app
-    image: softdevcicd/test
-    ports:
-      - "9081:5000"
