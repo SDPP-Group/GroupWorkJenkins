@@ -2,8 +2,8 @@
 
 ## 1. Setup Virtual Machine (oracle virtual box)
 set network adapter to bridge mode
-## 2. Install docker
-Install Software in VM 1,2,3
+## 2. Install Software
+Install docker in VM 1,2,3
 ```bash
 https://docs.docker.com/engine/install/ubuntu/
 ```
