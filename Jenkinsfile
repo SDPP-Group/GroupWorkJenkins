@@ -31,9 +31,7 @@ pipeline{
                 label 'testNode'
             }
             steps {
-                sh '''#!/bin/bash
-                source myenv/bin/activate && python3 ./test_restapi.py
-                '''
+                sh 'python3 ./test_restapi.py'
             }
         }
         stage("Create Images") {
