@@ -77,8 +77,10 @@ pipeline{
             }
             steps{
                     // push the image to the gitlab registry with credentials
-                    sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
-                    sh 'docker push registry.gitlab.com/northy007/simple-api'
+                    withCredentials([usernamePassword(credentialsId: 'lnwza007', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
+                        sh 'docker push registry.gitlab.com/northy007/simple-api'
+                    }
                     sh 'docker rmi -f registry.gitlab.com/northy007/simple-api:latest'
                     // sh "docker push registry.gitlab.com/autyauth1/softdevcicd"
             }
@@ -97,8 +99,10 @@ pipeline{
                 label 'pre-prodNode'
             }
             steps {
+                withCredentials([usernamePassword(credentialsId: 'lnwza007', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
                     sh 'docker pull registry.gitlab.com/northy007/simple-api'
+                }
             }
         }
         stage('Create Container from Image') {
