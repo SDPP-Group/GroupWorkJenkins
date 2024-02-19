@@ -56,11 +56,9 @@ pipeline{
                 label 'testNode'
             }
             steps {
-                sh "rm -rf ./robottestapi"
-                withCredentials([gitUsernamePassword(credentialsId: '86130d73-f735-4fd7-b9c7-6922adffce72', gitToolName: 'git-tool')]) {
-                    // Use withCredentials block to securely access credentials
-                    sh 'git clone https://gitlab.com/autyauth1/robottestapi.git'
-                }
+                sh "rm -rf RobotTestScript"
+                // Use withCredentials block to securely access credentials
+                sh 'git clone https://github.com/SDPP-Group/RobotTestScript.git'
             }
         }
         stage("Run Robot Test") {
@@ -69,7 +67,7 @@ pipeline{
             }
             steps {
                 // sh "cd ./robottestapi && robot ./plus.robot"
-                sh "cd ./robottestapi && python3 -m robot ./plus.robot"
+                sh 'robot RobotTestScript/plus.robot'
                 
             }
         }
@@ -79,10 +77,8 @@ pipeline{
             }
             steps{
                     // push the image to the gitlab registry with credentials
-                    withCredentials([usernamePassword(credentialsId: '86130d73-f735-4fd7-b9c7-6922adffce72', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
-                        sh 'docker push registry.gitlab.com/autyauth1/softdevcicd'
-                    }
+                    sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
+                    sh 'docker push registry.gitlab.com/autyauth1/softdevcicd'
                     sh 'docker rmi -f registry.gitlab.com/autyauth1/softdevcicd:latest'
                     // sh "docker push registry.gitlab.com/autyauth1/softdevcicd"
             }
@@ -101,11 +97,8 @@ pipeline{
                 label 'pre-prodNode'
             }
             steps {
-                    withCredentials([usernamePassword(credentialsId: '86130d73-f735-4fd7-b9c7-6922adffce72', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
-                        sh 'docker pull registry.gitlab.com/autyauth1/softdevcicd'
-                    }
-
+                    sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
+                    sh 'docker pull registry.gitlab.com/autyauth1/softdevcicd'
             }
         }
         stage('Create Container from Image') {
