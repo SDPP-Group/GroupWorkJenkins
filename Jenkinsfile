@@ -78,8 +78,8 @@ pipeline{
             steps{
                     // push the image to the gitlab registry with credentials
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
-                    sh 'docker push registry.gitlab.com/autyauth1/softdevcicd'
-                    sh 'docker rmi -f registry.gitlab.com/autyauth1/softdevcicd:latest'
+                    sh 'docker push registry.gitlab.com/northy007/simple-api'
+                    sh 'docker rmi -f registry.gitlab.com/northy007/simple-api:latest'
                     // sh "docker push registry.gitlab.com/autyauth1/softdevcicd"
             }
         }
@@ -98,7 +98,7 @@ pipeline{
             }
             steps {
                     sh 'docker login -u ${USERNAME} -p ${PASSWORD} registry.gitlab.com'
-                    sh 'docker pull registry.gitlab.com/autyauth1/softdevcicd'
+                    sh 'docker pull registry.gitlab.com/northy007/simple-api'
             }
         }
         stage('Create Container from Image') {
