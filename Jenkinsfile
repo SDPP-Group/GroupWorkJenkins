@@ -8,7 +8,7 @@ pipeline{
     stages{
         stage("Set Enviroment") {
             agent {
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 
@@ -17,7 +17,7 @@ pipeline{
         }
         stage("Install lib") {
             agent {
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 sh '''#!/bin/bash
@@ -28,7 +28,7 @@ pipeline{
         }
         stage("Run Unit Test") {
             agent{
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 sh '''#!/bin/bash
@@ -38,7 +38,7 @@ pipeline{
         }
         stage("Create Images") {
             agent {
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 sh "docker compose build"
@@ -47,7 +47,7 @@ pipeline{
         }
         stage("Create Container") {
             agent{
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 sh "docker compose up -d"
@@ -55,7 +55,7 @@ pipeline{
         }
         stage("Clone Robot") {
             agent{
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 sh "rm -rf ./robottestapi"
@@ -67,7 +67,7 @@ pipeline{
         }
         stage("Run Robot Test") {
             agent{
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 // sh "cd ./robottestapi && robot ./plus.robot"
@@ -77,7 +77,7 @@ pipeline{
         }
         stage("Push Image") {
             agent{
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps{
                     // push the image to the gitlab registry with credentials
@@ -91,7 +91,7 @@ pipeline{
         }
         stage('Clean Workspace') {
             agent {
-                label 'vm2-tester'
+                label 'testNode'
             }
             steps {
                 sh 'docker compose -f ./compose.yml down'          
@@ -100,7 +100,7 @@ pipeline{
         }
         stage('Pull Image from Registry') {
             agent {
-                label 'vm3-pre-prod'
+                label 'pre-prodNode'
             }
             steps {
                     withCredentials([usernamePassword(credentialsId: '86130d73-f735-4fd7-b9c7-6922adffce72', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
@@ -112,7 +112,7 @@ pipeline{
         }
         stage('Create Container from Image') {
             agent {
-                label 'vm3-pre-prod'
+                label 'pre-prodNode'
             }
             steps {
                 sh "docker compose -f ./compose.yml up -d"
