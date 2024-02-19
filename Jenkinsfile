@@ -6,26 +6,26 @@ pipeline{
     }
 
     stages{
-        stage("Set Enviroment") {
-            agent {
-                label 'testNode'
-            }
-            steps {
+        // stage("Set Enviroment") {
+        //     agent {
+        //         label 'testNode'
+        //     }
+        //     steps {
                 
-                sh 'python3 -m venv myenv'
-            }
-        }
-        stage("Install lib") {
-            agent {
-                label 'testNode'
-            }
-            steps {
-                sh '''#!/bin/bash
-                source myenv/bin/activate && pip install -r ./requirements.txt
+        //         sh 'python3 -m venv myenv'
+        //     }
+        // }
+        // stage("Install lib") {
+        //     agent {
+        //         label 'testNode'
+        //     }
+        //     steps {
+        //         sh '''#!/bin/bash
+        //         source myenv/bin/activate && pip install -r ./requirements.txt
                 
-                '''
-            }
-        }
+        //         '''
+        //     }
+        // }
         stage("Run Unit Test") {
             agent{
                 label 'testNode'
